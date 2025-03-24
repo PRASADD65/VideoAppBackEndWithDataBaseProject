@@ -22,7 +22,13 @@ public class VideoController {
     @PostMapping
     public VideoModule saveUser(@RequestBody VideoModule videoModule)
     {
-        return videoServiceImpl.addVideo(videoModule);
+        String videoRole=videoModule.getVideoDescription();
+        if(videoRole.equals("abhiupload")) {
+            return videoServiceImpl.addVideo(videoModule);
+        }
+        else {
+            return null;
+        }
     }
     @DeleteMapping
     public String deleteAllVideos()
@@ -37,11 +43,17 @@ public class VideoController {
     }
 
     @GetMapping
-    public List<VideoModule> getAllRecords(@RequestParam(required = false) String videoName) {
+    public List<VideoModule> getVideoByName(@RequestParam(required = false) String videoName) {
         if (videoName != null) {
             return videoServiceImpl.getVideoName(videoName);
         } else {
-           return videoServiceImpl.getAllVideos();
+           return null;
         }
+    }
+
+    @GetMapping("getAllVideos")
+    public List<VideoModule> getAllVideosRecords()
+    {
+        return videoServiceImpl.getAllVideos();
     }
 }
